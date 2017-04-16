@@ -20,7 +20,7 @@ D0%B5%20%D1%81%D0%B8%D0%B3%D0%B0%D1%80%D0%B5%D1%82%D1%8B%20%2F%20%D0%BA%D0%B0\
 %D0%BB%D1%8C%D1%8F%D0%BD%D1%8B/tab/firms?queryState=zoom%2F11'
 testUrl_1 = 'https://2gis.ru/moscow/search/adidas\
 %20%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%BD%D1%82/tab/firms?queryState=zoom%2F11'
-URL = testUrl_0
+URL = testUrl_1
 id_ = re.compile(r'id="[a-z0-9\-]*"')
 link = re.compile(r'\?http.*$')
 nums = re.compile(r'^[0-9]+')
@@ -201,16 +201,11 @@ else:
 
 iteration = 0        
 try:
-    next_page = obj_call(next_page_xpath, by = 'xpath', m = 'repeat next_page')
-    if next_page:
-        while iteration < int(RESULTS):
-            searcher(BLOCK_class)
-            next_page = obj_call(next_page_xpath, by = 'xpath', m = 'repeat next_page')
-            if next_page:
-                click_handler(next_page)
-                
-    else:
+    while iteration < int(RESULTS):
         searcher(BLOCK_class)
+        next_page = obj_call(next_page_xpath, by = 'xpath', m = 'repeat next_page')
+        if next_page:
+            click_handler(next_page)
     browser.close()
     w.close()
     print('Done')
