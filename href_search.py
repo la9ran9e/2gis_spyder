@@ -37,6 +37,8 @@ def obj_call(name,
                 obj = browser.find_element_by_id(name)
             elif by == 'class':
                 obj = browser.find_element_by_class_name(name)
+            elif by == 'xpath':
+                obj = browser.find_element_by_xpath(name)
         except Exception_:
             print(m)
             time.sleep(sleep)
@@ -155,24 +157,12 @@ def searcher(BLOCK_class):
             click_handler(obj, sleep_0 = 1)
             search_contacts()
             log.append(name+address)
-    
-    
+        
 def find_text(class_name):
     text_elem = elem.find_all(class_ = class_name)
     text = text_elem[0].string
     text = text.replace('\xa0', ' ')
     return text
-    
-def next_pages_searcher(m = 'Pages not found'):
-    next_page = None
-    while not next_page:
-        try:
-            next_page = browser.find_element_by_xpath(next_page_xpath)
-            time.sleep(1)
-        except NoSuchElementException:
-            print('repeat next_page_searcher')
-            time.sleep(3)
-    return next_page
 
 browser = webdriver.PhantomJS('%s/phantomjs' % PATH)
 #Chrome('/home/la9ran9e/chromedriver')
@@ -211,11 +201,11 @@ else:
 
 iteration = 0        
 try:
-    next_page = next_pages_searcher()
+    next_page = obj_call(next_page_xpath, by = 'xpath', m = 'repeat next_page')
     if next_page:
         while iteration < int(RESULTS):
             searcher(BLOCK_class)
-            next_page = next_pages_searcher()
+            next_page = obj_call(next_page_xpath, by = 'xpath', m = 'repeat next_page')
             if next_page:
                 click_handler(next_page)
                 
