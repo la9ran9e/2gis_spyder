@@ -125,6 +125,10 @@ def search_contacts(class_name = 'contact'):
                 href = href[6:]
                 contacts_dict['tel'] = href
                 write_list[12] = href
+            elif 'mailto:' in href:
+                href = href[7:]
+                contacts_dict['mail'] = href
+                write_list[13] = href
             print('>>> %s' % href)
     #print(write_list)
     w.write(';'.join(write_list) + '\n')
@@ -137,7 +141,7 @@ def searcher(BLOCK_class):
     soup = BeautifulSoup(BLOCK_html, 'html.parser')
     elems = soup.find_all('article')
     for elem in elems:
-        write_list = ['NaN']*13
+        write_list = ['NaN']*14
         iteration += 1
         print('<%s>' % iteration)
         name = find_text("miniCard__headerTitleLink")
@@ -196,7 +200,7 @@ else:
     w.write(';'.join(['name', 'address', 'site', 'vk.com',
              'twitter.com', 'facebook.com', 'instagram.com',
                       'youtube.com', 'plus.google.com', 'telegram', 'ok.ru',
-                      'tel', 'skype'])\
+                      'tel', 'skype', 'mail'])\
             +'\n')
 
 iteration = 0        
