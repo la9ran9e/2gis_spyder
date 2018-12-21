@@ -2,7 +2,6 @@
 import sys
 import requests
 from lxml import etree
-from io import StringIO
 
 
 # SITEMAP_URL = 'https://2gis.ru/sitemap.xml'
@@ -14,9 +13,7 @@ def main():
     args = get_args()
     urls = find(*args)
     if urls:
-        file = download(urls)
-        for obj in file:
-            print(obj.rstrip('\n'), flush=True)
+        download(urls)
 
 
 def get_args():
@@ -55,23 +52,19 @@ def find(city, name, url):
 
 
 def download(urls):
-    io = StringIO()
 
-    def rec_find(obj, io):
+    def rec_find(obj):
         for i in obj.getchildren():
             if i.text is None:
-                rec_find(i, io)
+                rec_find(i)
             else:
                 if 'loc' in i.tag:
-                    io.write(f'{i.text}\n')
+                    print(i.text, flush=True)
 
     for url in urls:
         res = requests.get(url)
         xml = etree.fromstring(res.content)
-        rec_find(xml, io)
-
-    io.seek(0)
-    return io
+        rec_find(xml)
 
 
 if __name__ == '__main__':
