@@ -1,4 +1,4 @@
-#!./venv/bin/python3.6
+#!./venv/bin/python3
 import sys
 import requests
 from lxml import etree

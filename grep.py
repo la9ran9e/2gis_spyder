@@ -1,4 +1,4 @@
-#!./venv/bin/python3.6
+#!./venv/bin/python3
 import sys
 import json
 import requests
@@ -10,9 +10,11 @@ def main():
     filter_conf = get_filter(filter_conf_path)
     while True:
         url = input()
-        content = get_content(url)
+        headers = filter_conf.get('headers', None)
+        encoding = filter_conf.get('encoding', 'utf-8')
+        content = get_content(url, headers, encoding)
         filtered = content_filter(content, filter_conf)
-        filtered_str = json.dumps(filtered)
+        filtered_str = json.dumps(filtered, ensure_ascii=False)
         print(filtered_str, flush=True)
 
 
@@ -22,11 +24,13 @@ def get_args():
 
 
 def get_filter(filter_conf):
-    return json.load(open(filter_conf, 'rb'))
+    with open(filter_conf, 'rb') as f:
+        return json.load(f)
 
 
-def get_content(url):
-    res = requests.get(url)
+def get_content(url, headers=None, encoding='utf-8'):
+    res = requests.get(url, headers=headers)
+    res.encoding = encoding
     return res.text
 
 
@@ -36,11 +40,11 @@ def content_filter(content, filter_conf):
         parser.feed(content)
     except StopIteration:
         pass
-    if not filter_conf:
+    name_filter = filter_conf.get('names', None)
+    if not name_filter:
         res = parser.result
     else:
-        filter_list = filter_conf['names']
-        res = {key: value for key, value in parser.result.items() if key in filter_list}
+        res = {key: value for key, value in parser.result.items() if key in name_filter}
     return res
 
 

@@ -1,6 +1,6 @@
-PYTHON=./venv/bin/python3.6
+PYTHON=./venv/bin/python3
 build:
-	python3.6 -m venv venv
+	python3 -m venv venv
 	${PYTHON} -m pip install -r requirements.txt
 	chmod +x obj_finder.py
 	chmod +x grep.py
