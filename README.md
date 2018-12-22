@@ -12,7 +12,7 @@ make build
 
 ### Find and grep objects
 ```bash
-2gis_spyder$ touch districts
+2gis_spyder$ touch filials
 2gis_spyder$ ./obj_finder.py moscow filials https://2gis.ru/sitemap.xml > filials
 2gis_spyder$ wc -l filials
 693162 filials
