@@ -6,14 +6,19 @@ from parser.base import Parser
 
 
 def main():
-    filter_conf_path = get_args()
-    filter_conf = get_filter(filter_conf_path)
+    # TODO: SIGINT handler
+    config_path = get_args()
+    config = get_filter(config_path)
+    content_cls_name = config['content_cls_name']
+    name_filter = config.get('map', None) or config.get('names', None)
     while True:
         url = input()
-        headers = filter_conf.get('headers', None)
-        encoding = filter_conf.get('encoding', 'utf-8')
-        content = get_content(url, headers, encoding)
-        filtered = content_filter(content, filter_conf)
+        headers = config.get('headers', None)
+        encoding = config.get('encoding', 'utf-8')
+        raw_content = get_content(url, headers, encoding)
+        content = parser(raw_content, content_cls_name)
+        filtered = list_filter(content, name_filter) if isinstance(name_filter, list) \
+            else mapper(content, name_filter)
         filtered_str = json.dumps(filtered, ensure_ascii=False)
         print(filtered_str, flush=True)
 
@@ -23,8 +28,8 @@ def get_args():
         return sys.argv[1]
 
 
-def get_filter(filter_conf):
-    with open(filter_conf, 'rb') as f:
+def get_filter(config):
+    with open(config, 'rb') as f:
         return json.load(f)
 
 
@@ -34,17 +39,22 @@ def get_content(url, headers=None, encoding='utf-8'):
     return res.text
 
 
-def content_filter(content, filter_conf):
-    parser = Parser(filter_conf['content_cls_name'])
+def parser(content, content_cls_name):
+    p = Parser(content_cls_name)
     try:
-        parser.feed(content)
+        p.feed(content)
     except StopIteration:
         pass
-    name_filter = filter_conf.get('names', None)
-    if not name_filter:
-        res = parser.result
-    else:
-        res = {key: value for key, value in parser.result.items() if key in name_filter}
+    return p.result
+
+
+def list_filter(content, name_filter):
+    res = {key: value for key, value in content.items() if key in name_filter}
+    return res
+
+
+def mapper(content, name_mapper):
+    res = {name_mapper[key]: value for key, value in content.items() if key in name_mapper}
     return res
 
 

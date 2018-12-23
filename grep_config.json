@@ -3,9 +3,9 @@
     "User-Agent": "Mozilla/5.0"
   },
   "content_cls_name": "frame__content",
-  "names": [
-    "cardHeader__headerName",
-    "cardHeader__headerDescriptionText",
-    "contact__phonesItem _type_phone"
-  ]
+  "map": {
+    "cardHeader__headerName": "name",
+    "cardHeader__headerDescriptionText": "type",
+    "contact__phonesItem _type_phone": "phone"
+  }
 }
