@@ -32,13 +32,17 @@ https://2gis.ru/moscow/firm/4504127908875013
 ### Grep content
 ```bash
 2gis_spyder$ cat filials | ./grep.py grep_config.json 
-{"cardHeader__headerName": "Левша", "cardHeader__headerDescriptionText": "Торговый комплекс"}
-{"cardHeader__headerName": "Левша", "cardHeader__headerDescriptionText": "Торговый комплекс", "contact__phonesItem _type_phone": "+7 (495) 662–12–42"}
-{"cardHeader__headerName": "Левша", "cardHeader__headerDescriptionText": "Салон красоты", "contact__phonesItem _type_phone": "+7 (495) 662–12–42"}
-{"cardHeader__headerName": "Левша", "cardHeader__headerDescriptionText": " ", "contact__phonesItem _type_phone": "+7 (495) 913–84–00"}
-{"cardHeader__headerName": "BizBeri", "cardHeader__headerDescriptionText": "Бизнес-портал", "contact__phonesItem _type_phone": "+7 (495) 913–84–00"}
-{"cardHeader__headerName": "Юниджет", "cardHeader__headerDescriptionText": "Компания", "contact__phonesItem _type_phone": "+7 (495) 258–18–08"}
-{"cardHeader__headerName": "Юниджет", "cardHeader__headerDescriptionText": "Сеть автосервисов", "contact__phonesItem _type_phone": "+7 (495) 258–18–08"}
-{"cardHeader__headerName": "Юниджет", "cardHeader__headerDescriptionText": " ", "contact__phonesItem _type_phone": "+7 (499) 390–20–55"}
+{"name": "Левша", "type": "Торговый комплекс", "phone": "+7 (495) 662–12–42"}
+{"name": "Левша", "type": " ", "phone": "+7 (495) 913–84–00"}
+{"name": "BizBeri", "type": "Бизнес-портал", "phone": "+7 (495) 913–84–00"}
+{"name": "Юниджет", "type": "Компания", "phone": "+7 (495) 258–18–08"}
+{"name": "Юниджет", "type": " ", "phone": "+7 (499) 390–20–55"}
+{"name": "Юниджет", "type": " ", "phone": "+7 (495) 506–54–93"}
+{"name": "Юниджет", "type": " ", "phone": "+7 (499) 390–20–55"}
+{"name": "Юниджет", "type": " ", "phone": "+7 (499) 169–01–15"}
+{"name": "Юниджет", "type": " ", "phone": "+7 (499) 169–01–15"}
+{"name": "Бизнес Фокус, ООО", "type": "Компания", "phone": "+7 (499) 350–62–80"}
+{"name": "Бизнес Фокус, ООО", "type": " ", "phone": "+7 (495) 966–41–48"}
+{"name": "Бизнес Фокус, ООО", "type": " ", "phone": "+7 (495) 966–41–48"}
 to be continued ...
 ```
