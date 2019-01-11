@@ -32,17 +32,23 @@ https://2gis.ru/moscow/firm/4504127908875013
 ### Grep content
 ```bash
 2gis_spyder$ cat filials | ./grep.py grep_config.json 
-{"name": "Левша", "type": "Торговый комплекс", "phone": "+7 (495) 662–12–42"}
-{"name": "Левша", "type": " ", "phone": "+7 (495) 913–84–00"}
-{"name": "BizBeri", "type": "Бизнес-портал", "phone": "+7 (495) 913–84–00"}
-{"name": "Юниджет", "type": "Компания", "phone": "+7 (495) 258–18–08"}
-{"name": "Юниджет", "type": " ", "phone": "+7 (499) 390–20–55"}
-{"name": "Юниджет", "type": " ", "phone": "+7 (495) 506–54–93"}
-{"name": "Юниджет", "type": " ", "phone": "+7 (499) 390–20–55"}
-{"name": "Юниджет", "type": " ", "phone": "+7 (499) 169–01–15"}
-{"name": "Юниджет", "type": " ", "phone": "+7 (499) 169–01–15"}
-{"name": "Бизнес Фокус, ООО", "type": "Компания", "phone": "+7 (499) 350–62–80"}
-{"name": "Бизнес Фокус, ООО", "type": " ", "phone": "+7 (495) 966–41–48"}
-{"name": "Бизнес Фокус, ООО", "type": " ", "phone": "+7 (495) 966–41–48"}
+https://2gis.ru/moscow/branches/70000001025953070|{"name": "Левша", "type": "Торговый комплекс"}
+https://2gis.ru/moscow/firm/70000001033044306|{"name": "Левша", "type": "Торговый комплекс", "phone": "+7 (495) 662–12–42"}
+https://2gis.ru/moscow/branches/4504136499348120|{"name": "Левша", "type": "Салон красоты", "phone": "+7 (495) 662–12–42"}
+to be continued ...
+```
+
+### Store data
+* #### SQLite3
+```bash
+2gis_spyder$ cat filials | ./grep.py grep_config.json | ./store.sh test 'url TEXT, data TEXT'
+... a few moments later
+2gis_spyder$ sqlite3 store.db
+SQLite version 3.19.3 2017-06-27 16:48:08
+Enter ".help" for usage hints.
+sqlite> select * from test limit 3;
+https://2gis.ru/moscow/branches/70000001025953070|{"name": "Левша", "type": "Торговый комплекс"}
+https://2gis.ru/moscow/firm/70000001033044306|{"name": "Левша", "type": "Торговый комплекс", "phone": "+7 (495) 662–12–42"}
+https://2gis.ru/moscow/branches/4504136499348120|{"name": "Левша", "type": "Салон красоты", "phone": "+7 (495) 662–12–42"}
 to be continued ...
 ```

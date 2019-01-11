@@ -17,10 +17,10 @@ def main():
         encoding = config.get('encoding', 'utf-8')
         raw_content = get_content(url, headers, encoding)
         content = parser(raw_content, content_cls_name)
-        filtered = list_filter(content, name_filter) if isinstance(name_filter, list) \
+        content = list_filter(content, name_filter) if isinstance(name_filter, list) \
             else mapper(content, name_filter)
-        filtered_str = json.dumps(filtered, ensure_ascii=False)
-        print(filtered_str, flush=True)
+        filtered_str = json.dumps(content, ensure_ascii=False)
+        print(f'{url}|{filtered_str}', flush=True)
 
 
 def get_args():
