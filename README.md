@@ -50,5 +50,4 @@ sqlite> select * from test limit 3;
 https://2gis.ru/moscow/branches/70000001025953070|{"name": "Левша", "type": "Торговый комплекс"}
 https://2gis.ru/moscow/firm/70000001033044306|{"name": "Левша", "type": "Торговый комплекс", "phone": "+7 (495) 662–12–42"}
 https://2gis.ru/moscow/branches/4504136499348120|{"name": "Левша", "type": "Салон красоты", "phone": "+7 (495) 662–12–42"}
-to be continued ...
 ```
