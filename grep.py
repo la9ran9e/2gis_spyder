@@ -11,14 +11,16 @@ def main():
     config = get_filter(config_path)
     content_cls_name = config['content_cls_name']
     name_filter = config.get('map', None) or config.get('names', None)
-    while True:
-        url = input()
+    for line in sys.stdin:
+        url = line.rstrip()
         headers = config.get('headers', None)
         encoding = config.get('encoding', 'utf-8')
         raw_content = get_content(url, headers, encoding)
         content = parser(raw_content, content_cls_name)
-        content = list_filter(content, name_filter) if isinstance(name_filter, list) \
-            else mapper(content, name_filter)
+        if isinstance(name_filter, list):
+            content = list_filter(content, name_filter)
+        elif isinstance(name_filter, dict):
+            content = mapper(content, name_filter)
         filtered_str = json.dumps(content, ensure_ascii=False)
         print(f'{url}|{filtered_str}', flush=True)
 
