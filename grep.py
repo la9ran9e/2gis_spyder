@@ -3,6 +3,7 @@ import sys
 import json
 import requests
 from parser.base import Parser
+from datetime import datetime
 
 
 def main():
@@ -12,6 +13,8 @@ def main():
     content_cls_name = config['content_cls_name']
     name_filter = config.get('map', None) or config.get('names', None)
     for line in sys.stdin:
+        now = datetime.now()
+        print(f'started in {now}', file=sys.stderr)
         url = line.rstrip()
         headers = config.get('headers', None)
         encoding = config.get('encoding', 'utf-8')
@@ -23,6 +26,8 @@ def main():
             content = mapper(content, name_filter)
         filtered_str = json.dumps(content, ensure_ascii=False)
         print(f'{url}|{filtered_str}', flush=True)
+        now = datetime.now()
+        print(f'finished in {now}', file=sys.stderr)
 
 
 def get_args():
