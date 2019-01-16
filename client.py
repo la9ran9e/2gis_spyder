@@ -41,11 +41,10 @@ def get(url):
         time.sleep(PROCESS_DELAY)
     else:
         packer(url_hash, data.decode('UTF-8'))
-        put(url)
+        put(url_hash)
 
 
-def put(url):
-    url_hash = hashlib.md5(bytes(url, encoding='UTF-8')).hexdigest()
+def put(url_hash):
     message = {'method': 'put', 'data': url_hash, 'peer_address': PEER_ADDRESS}
     message = json.dumps(message)
     message = bytes(message, encoding='UTF-8')
