@@ -1,5 +1,4 @@
 #!./venv/bin/python3
-import time
 import socket
 import json
 import sys
@@ -10,7 +9,6 @@ from datetime import datetime
 
 SOCKET = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 SERVER_ADDRESS = ('localhost', 10000)
-PROCESS_DELAY = 1
 
 
 def get_peer():
@@ -38,7 +36,6 @@ def get(url):
     print(f'received: {data} at {now}', file=sys.stderr)
     if data == b'0':
         print(url, flush=True)
-        time.sleep(PROCESS_DELAY)
     else:
         packer(url_hash, data.decode('UTF-8'))
         put(url_hash)
@@ -62,10 +59,15 @@ def main():
     print(f'started: {datetime.now()}', file=sys.stderr)
     arg = arg_parser()
     method = ROUTE[arg]
-    for line in sys.stdin:
-        url = line.rstrip()
-        method(url)
-    print(f'finished: {datetime.now()}', file=sys.stderr)
+
+    def loop():
+        while True:
+            url = input()
+            method(url)
+    try:
+        loop()
+    except EOFError:
+        print(f'finished: {datetime.now()}', file=sys.stderr)
 
 
 if __name__ == '__main__':

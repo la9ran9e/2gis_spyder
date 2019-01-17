@@ -6,28 +6,48 @@ from parser.base import Parser
 from datetime import datetime
 
 
+def list_filter(content, name_filter):
+    res = {key: value for key, value in content.items() if key in name_filter}
+    return res
+
+
+def mapper(content, name_mapper):
+    res = {name_mapper[key]: value for key, value in content.items() if key in name_mapper}
+    return res
+
+
+ROUTE = {
+    dict: mapper,
+    list: list_filter
+}
+
+
 def main():
     # TODO: SIGINT handler
     config_path = get_args()
     config = get_filter(config_path)
     content_cls_name = config['content_cls_name']
     name_filter = config.get('map', None) or config.get('names', None)
-    for line in sys.stdin:
-        now = datetime.now()
-        print(f'started in {now}', file=sys.stderr)
-        url = line.rstrip()
-        headers = config.get('headers', None)
-        encoding = config.get('encoding', 'utf-8')
-        raw_content = get_content(url, headers, encoding)
-        content = parser(raw_content, content_cls_name)
-        if isinstance(name_filter, list):
-            content = list_filter(content, name_filter)
-        elif isinstance(name_filter, dict):
-            content = mapper(content, name_filter)
-        filtered_str = json.dumps(content, ensure_ascii=False)
-        print(f'{url}|{filtered_str}', flush=True)
-        now = datetime.now()
-        print(f'finished in {now}', file=sys.stderr)
+    filter_func = ROUTE.get(type(name_filter), None)
+    headers = config.get('headers', None)
+    encoding = config.get('encoding', 'utf-8')
+
+    def loop():
+        while True:
+            now = datetime.now()
+            print(f'started in {now}', file=sys.stderr)
+            url = input()
+            raw_content = get_content(url, headers, encoding)
+            content = parser(raw_content, content_cls_name)
+            content = filter_func(content, name_filter) if filter_func else content
+            content = json.dumps(content, ensure_ascii=False)
+            print(f'{url}|{content}', flush=True)
+            now = datetime.now()
+            print(f'finished in {now}', file=sys.stderr)
+    try:
+        loop()
+    except EOFError:
+        pass
 
 
 def get_args():
@@ -53,16 +73,6 @@ def parser(content, content_cls_name):
     except StopIteration:
         pass
     return p.result
-
-
-def list_filter(content, name_filter):
-    res = {key: value for key, value in content.items() if key in name_filter}
-    return res
-
-
-def mapper(content, name_mapper):
-    res = {name_mapper[key]: value for key, value in content.items() if key in name_mapper}
-    return res
 
 
 if __name__ == '__main__':
