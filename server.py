@@ -51,7 +51,7 @@ ROUTES = {
 
 
 def main():
-    server_address = ('localhost', 10000)
+    server_address = ('0.0.0.0', 10000)
     server_verbose = f'{server_address[0]}:{server_address[1]}'
     print(f'server started on {server_verbose}')
     SOCKET.bind(server_address)
