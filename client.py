@@ -16,7 +16,7 @@ def main():
     if arg == 'get':
         method = callback.wrap(get, 'recv', 1) if callback else get
     elif arg == 'put':
-        method = callback.wrap(get, 'send', b'1') if callback else put
+        method = callback.wrap(put, 'send', b'1') if callback else put
     else:
         raise KeyError(f'wrong method: {arg}')
     try:
